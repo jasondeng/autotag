@@ -135,8 +135,39 @@ app.post('/auth/twitter', function(req, res) {
     });
   }
 });
+var TWILIO_ACCOUNT_SID = config.TWILIO_SID;
+var TWILIO_AUTH_TOKEN = config.TWILIO_AUTH_TOKEN;
+var twilio = require('twilio');
+var client = new twilio.RestClient(TWILIO_ACCOUNT_SID, TWILIO_AUTH_TOKEN);
 
-var client = require('twilio')(config.ACCOUNT_SID, config.TWILIO_AUTH_TOKEN);
+/*
+client.sendSms({
+    to:'9176075342',
+    from:'9172424218',
+    body:'ahoy hoy! Testing Twilio and node.js'
+}, function(error, message) {
+    if (!error) {
+        console.log('Success! The SID for this SMS message is:');
+        console.log(message.sid);
+        console.log('Message sent on:');
+        console.log(message.dateCreated);
+    } else {
+        console.log('Oops! There was an error.');
+    }
+});
+*/
+
+app.post('/post/incoming', function(req,res) {
+  var resp = new twilio.TwimlResponse();
+
+   resp.say({voice:'woman'}, 'ahoy hoy! Testing Twilio and node.js');
+
+   //Render the TwiML document using "toString"
+   res.writeHead(200, {
+       'Content-Type':'text/xml'
+   });
+   res.end(resp.toString());
+});
 
 app.post('/post/twitter', function(req, res) {
 

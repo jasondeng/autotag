@@ -166,7 +166,7 @@ client.sendSms({
 
 app.post('/post/incoming', function(req,res) {
   var resp = new twilio.TwimlResponse();
-
+  console.log(req.body);
    resp.message('ahoy hoy! Testing Twilio and node.js');
 
    //Render the TwiML document using "toString"

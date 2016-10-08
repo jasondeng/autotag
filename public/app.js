@@ -1,28 +1,23 @@
 (function () {
-  'user strict';
+  'use strict';
 
   angular
-      .module('app', [])
+      .module('app', ['satellizer'])
       .controller('HomeCtrl', HomeCtrl);
 
-      function HomeCtrl(){
+      HomeCtrl.$inject = ['$auth'];
+
+      function HomeCtrl($auth){
+
         var oauth2 = function(provider) {
-               $auth.authenticate(provider)
-                   .then(function() {
-                       toastr.success('You have successfully signed in with ' + provider + '!');
-                       $location.path('/');
-                   })
-                   .catch(function(error) {
-                       if (error.error) {
-                           // Popup error - invalid redirect_uri, pressed cancel button, etc.
-                           toastr.error(error.error);
-                       } else if (error.data) {
-                           // HTTP response error from server
-                           toastr.error(error.data.message, error.status);
-                       } else {
-                           toastr.error(error);
-                       }
-                   });
-           };
+          $auth.authenticate(provider)
+                 .then(function() {
+                     console.log('authenitated');
+                 })
+                 .catch(function(error) {
+                   consol.log(error);
+                 });
+         };
+
       }
 })();

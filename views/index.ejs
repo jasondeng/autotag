@@ -1,11 +1,58 @@
 <!DOCTYPE html>
-<html>
+<html ng-app="app">
   <head>
-    <title><%= title %></title>
-    <link rel='stylesheet' href='/stylesheets/style.css' />
+      <meta charset="utf-8">
+      <meta http-equiv="X-UA-Compatible" content="IE=edge">
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+      <title>AutoTag</title>
+      <link rel="stylesheet" href="/stylesheets/style.css">
+
+      <script src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
+      <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+      <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" />
+            <!-- Compiled and minified CSS -->
+       <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.7/css/materialize.min.css">
+
+       <!-- Compiled and minified JavaScript -->
+       <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.7/js/materialize.min.js"></script>
   </head>
+
   <body>
-    <h1><%= title %></h1>
-    <p>Welcome to <%= title %></p>
+    <div class="container center">
+      <h1>AutoTag</h1>
+      <p><a class="btn btn-primary btn-lg" href="#bottomCSS" role="button">Learn more</a></p>
+    </div>
+
+    <div id="container" ng-controller="HomeCtrl">
+      <div class="center">
+        <form class="rowDown" action="index.html" method="post">
+          <div class="row">
+            <div class="input-field col-md-4 col-md-offset-4">
+              <input class="textLine" id="tel" type="tel">
+              <label class="testForm" for="tel">Phone Number</label>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-12">
+              <button type="button" class="btn btn-default navbar-btn">Verify With Twitter</button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+
   </body>
+
+  <footer>
+    <div class="center">
+      <p id="bottomCSS">
+        AutoTag automatically post pictures to twitter and tags it according to Clarifai's api
+      </p>
+      <p>
+        Created By <a href="https://github.com/jasonCodeng">Jason Deng</a>, <a href="https://github.com/cpanz">Cheng Pan</a>, <a href="https://github.com/newtext">Lizhou Cao</a>
+      </p>
+    </div>
+  </footer>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.4.12/angular.min.js"></script>
+  <script src="/app.js"></script>
 </html>

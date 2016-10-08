@@ -5,7 +5,14 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var mongoose = require('mongoose');
-var config = require('./config');
+var config;
+try {
+  config = require('./config');
+}
+catch(e) {
+  console.log('config not found');
+  config = process.env;
+}
 
 var routes = require('./routes/index');
 var users = require('./routes/users');

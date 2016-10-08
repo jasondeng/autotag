@@ -13,6 +13,8 @@ catch(e) {
   console.log('config not found');
   config = process.env;
 }
+var Request = require('request');
+var config = require('./config');
 
 var routes = require('./routes/index');
 var users = require('./routes/users');
@@ -175,10 +177,20 @@ app.post('/post/incoming', function(req,res) {
    });
    res.end(resp.toString());
 });
+//var client = require('twilio')(config.ACCOUNT_SID, config.TWILIO_AUTH_TOKEN);
 
 app.post('/post/twitter', function(req, res) {
 
 })
+
+app.get('/post/clarifai', function(req, res) {
+  Request('https://api.clarifai.com/v1/tag?url=' + req.query.uri + '&access_token=' + config.CLARIFAI_TOKEN, function(error, response, body) {
+    if (!error && response.statusCode == 200) {
+        return res.send(body);
+    }
+    return res.send(response.body)
+  })
+});
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
   var err = new Error('Not Found');

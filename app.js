@@ -180,9 +180,10 @@ app.post('/post/incoming', function(req,res) {
 
    Request('https://api.clarifai.com/v1/tag?url=' + req.body.MediaUrl0 + '&access_token=' + config.CLARIFAI_TOKEN, function(error, response, body) {
      if (!error && response.statusCode == 200) {
-         return res.send(body);
+        console.log(body);
+        return res.send(body);
      }
-     return res.send(response.body)
+     return res.send(response.body);
    })
 
 });

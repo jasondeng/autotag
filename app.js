@@ -7,6 +7,8 @@ var bodyParser = require('body-parser');
 var mongoose = require('mongoose');
 var cors = require('cors');
 var qs = require('querystring');
+var Twit = require('twit')
+
 var config;
 try {
   config = require('./config');
@@ -41,15 +43,19 @@ app.use('/users', users);
 mongoose.connect('mongodb://admin:admin@ds053176.mlab.com:53176/hackny2016');
 var User = require("./models/user");
 
-app.post('/submit', function(req, res) {
+app.post('/post/phonenum', function(req, res) {
   var data = req.body;
   var phone_number = data.phone_number;
-  var twitter_token = data.token;
-
+  console.log(data);
   var user = new User({
     phone_number: phone_number,
-    twitter_access_token: twitter_token
+  });
+
+  user.save(function(err) {
+    if(err) (console.log(err));
   })
+
+  res.send({success: true});
 });
 
 app.post('/auth/twitter', function(req, res) {
@@ -68,9 +74,8 @@ app.post('/auth/twitter', function(req, res) {
     // Step 1. Obtain request token for the authorization popup.
     request.post({ url: requestTokenUrl, oauth: requestTokenOauth }, function(err, response, body) {
       var oauthToken = qs.parse(body);
-      console.log(oauthToken);
       // Step 2. Send OAuth token back to open the authorization screen.
-      res.send("oauthToken: ", oauthToken);
+      res.send(oauthToken);
     });
   } else {
     // Part 2 of 2: Second request after Authorize app is clicked.
@@ -86,14 +91,20 @@ app.post('/auth/twitter', function(req, res) {
 
       accessToken = qs.parse(accessToken);
       console.log("ACCESSTOKEN ", accessToken);
+/*
+      consumer_key: config.TWITTER_KEY,
+      consumer_secret: config.TWITTER_SECRET,
+      access_token: accessToken.oauth_token,
+      access_token_secret: accessToken.oauth_token_secret,
 
-      var profileOauth = {
-        consumer_key: config.TWITTER_KEY,
-        consumer_secret: config.TWITTER_SECRET,
-        token: accessToken.oauth_token,
-        token_secret: accessToken.oauth_token_secret,
-      };
+      var user = new User()
+*/
 
+    });
+    res.send({success: true});
+  }
+});
+/*
       // Step 4. Retrieve user's profile information and email address.
       request.get({
         url: profileUrl,
@@ -118,9 +129,6 @@ app.post('/auth/twitter', function(req, res) {
               }
 
               user.twitter = profile.id;
-              user.email = profile.email;
-              user.displayName = user.displayName || profile.name;
-              user.picture = user.picture || profile.profile_image_url_https.replace('_normal', '');
               user.save(function(err) {
                 res.send({ token: createJWT(user) });
               });
@@ -143,10 +151,8 @@ app.post('/auth/twitter', function(req, res) {
             });
           });
         }
-      });
-    });
-  }
-});
+      });*/
+
 var TWILIO_ACCOUNT_SID = config.TWILIO_SID;
 var TWILIO_AUTH_TOKEN = config.TWILIO_AUTH_TOKEN;
 var twilio = require('twilio');
@@ -189,6 +195,33 @@ app.post('/post/incoming', function(req,res) {
      }
      return res.send(response.body);
    })
+
+   var T = new Twit({
+     consumer_key: config.TWITTER_KEY,
+     consumer_secret: config.TWITTER_SECRET,
+     access_token: accessToken.oauth_token,
+     access_token_secret: accessToken.oauth_token_secret,
+   });
+
+   // first we must post the media to Twitter
+T.post('media/upload', { media_data: b64content }, function (err, data, response) {
+// now we can assign alt text to the media, for use by screen readers and
+// other text-based presentations and interpreters
+var mediaIdStr = data.media_id_string;
+var altText = "Small flowers in a planter on a sunny balcony, blossoming."
+var meta_params = { media_id: mediaIdStr, alt_text: { text: altText } }
+
+T.post('media/metadata/create', meta_params, function (err, data, response) {
+ if (!err) {
+   // now we can reference the media and post a tweet (media will attach to the tweet)
+   var params = { status: 'loving life #nofilter', media_ids: [mediaIdStr] }
+
+   T.post('statuses/update', params, function (err, data, response) {
+     console.log(data)
+   })
+ }
+})
+})
 
 });
 

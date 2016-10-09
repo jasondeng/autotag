@@ -19,28 +19,36 @@
 </head>
 
 <body>
-    <div class="container center">
+    < <div class="container center">
         <h1>AutoTag</h1>
-        <p><a class="btn btn-primary btn-lg" href="#bottomCSS" role="button">Learn more</a></p>
-    </div>
+        <!--  <p><a class="btn btn-primary btn-lg" href="#bottomCSS" role="button">Learn more</a></p>-->
+        </div>
 
-    <div id="container" ng-controller="HomeCtrl">
-        <div class="center">
-            <form class="rowDown" action="index.html" method="post">
-                <div class="row">
-                    <div class="input-field col-md-4 col-md-offset-4">
-                        <input class="textLine" id="tel" type="tel">
-                        <label class="testForm" for="tel">Phone Number</label>
+        <div id="container" ng-controller="HomeCtrl">
+            <div class="center">
+                <form class="rowDown" ng-submit="submitNumber()">
+                    <div ng-hide="phone_submitted" class="row">
+                        <div class="input-field col-md-4 col-md-offset-4">
+                            <input class="textLine" ng-model="phonenumber" id="tel" type="tel">
+                            <label class="testForm" for="tel">Phone Number</label>
+                        </div>
+                        <div class="col-md-12">
+                            <button type="submit" class=" btn btn-default navbar-btn ">Submit</button>
+                        </div>
                     </div>
-                </div>
-                <div class="row">
+                </form>
+
+                <div ng-hide="!linked" class="row">
                     <div class="col-md-12">
                         <button type="button" ng-click="oauth2('twitter')" class=" btn btn-default navbar-btn ">Verify With Twitter</button>
                     </div>
                 </div>
-            </form>
+                <div ng-hide="!bothSubmitted">
+                    <div>Your Twitter and phone number are now linked!</div>
+                    <div>Text (917)242-4218 to auto tag your image and post it on Twitter!</div>
+                </div>
+            </div>
         </div>
-    </div>
 
 </body>
 

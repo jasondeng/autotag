@@ -119,7 +119,7 @@ var twilio = require('twilio');
 var client = new twilio.RestClient(TWILIO_ACCOUNT_SID, TWILIO_AUTH_TOKEN);
 
 app.post('/post/incoming', function(req,res) {
-  console.log(res);
+  console.log(res.body);
 
   var resp = new twilio.TwimlResponse();
    resp.message('We have recieved your image!');

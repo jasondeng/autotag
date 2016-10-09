@@ -9,8 +9,6 @@ var cors = require('cors');
 var qs = require('querystring');
 var Twit = require('twit');
 var fs = require('fs');
-var convert = require('node-image-base64');
-getBase64ImageBlob = convert.getBase64ImageBlob;
 
 var http = require('http');
 

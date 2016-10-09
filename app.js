@@ -196,10 +196,13 @@ app.post('/post/incoming', function(req, res) {
           }
         });
       }
+
+
+          res.writeHead(200, { 'Content-Type':'text/xml' });
+          res.end(resp.toString());
     })
 
-    res.writeHead(200, { 'Content-Type':'text/xml' });
-    res.end(resp.toString());
+  
 })
 
 

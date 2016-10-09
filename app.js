@@ -126,7 +126,7 @@ app.post('/post/incoming', function(req,res) {
         console.log('0',data);
         console.log('a',data["results"]);
         console.log('b',data.results);
-
+        console.log('c', JSON.parse(data));
 
         //return res.send(body);
      }

@@ -119,21 +119,22 @@ var twilio = require('twilio');
 var client = new twilio.RestClient(TWILIO_ACCOUNT_SID, TWILIO_AUTH_TOKEN);
 
 app.post('/post/incoming', function(req,res) {
-  console.log(res.body);
 
   var resp = new twilio.TwimlResponse();
    resp.message('We have recieved your image!');
+   console.log(req.body);
 
    request('https://api.clarifai.com/v1/tag?url=' + req.body.MediaUrl0 + '&access_token=' + config.CLARIFAI_TOKEN, function(error, response, body) {
      if (!error && response.statusCode == 200) {
        var data = JSON.parse(body).results[0].result.tag.classes;
 
+/*
        var T = new Twit({
          consumer_key: config.TWITTER_KEY,
          consumer_secret: config.TWITTER_SECRET,
          access_token: accessToken.oauth_token,
          access_token_secret: accessToken.oauth_token_secret,
-       });
+       });*/
      }
      //return res.send(response.body);
    })

@@ -153,8 +153,8 @@ app.post('/post/incoming', function(req, res) {
               var type    = r.headers["content-type"];
               var prefix  = "data:" + "image/jpg" + ";base64,";
               var base64  = new Buffer(b, 'binary').toString('base64');
-              var b64content = prefix + base64;
-
+              var b64content = base64;
+              console.log(b64content);
               T.post('media/upload', { media_data: b64content }, function(err, data, response) {
                 // now we can assign alt text to the media, for use by screen readers and
                 // other text-based presentations and interpreters

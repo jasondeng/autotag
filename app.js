@@ -116,25 +116,26 @@ app.post('/post/incoming', function(req,res) {
 
 
   var resp = new twilio.TwimlResponse();
-   resp.message('ahoy hoy! Testing Twilio and node.js');
-   console.log(res.body);
+   resp.message('We have recieved your image!');
    console.log(req.body);
 
+
+   request('https://api.clarifai.com/v1/tag?url=' + req.body.MediaUrl0 + '&access_token=' + config.CLARIFAI_TOKEN, function(error, response, body) {
+     if (!error && response.statusCode == 200) {
+        console.log(body);
+        //return res.send(body);
+     }
+     //return res.send(response.body);
+   })
    //Render the TwiML document using "toString"
    res.writeHead(200, {
        'Content-Type':'text/xml'
    });
+
    res.end(resp.toString());
 
- });
-/*
-   request('https://api.clarifai.com/v1/tag?url=' + req.body.MediaUrl0 + '&access_token=' + config.CLARIFAI_TOKEN, function(error, response, body) {
-     if (!error && response.statusCode == 200) {
-        console.log(body);
-        return res.send(body);
-     }
-     return res.send(response.body);
-   })*/
+});
+
 
    /*
 

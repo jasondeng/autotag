@@ -144,55 +144,51 @@ app.post('/post/incoming', function(req, res) {
               access_token_secret: user.access_token_secret,
             });
             console.log(req.body.MediaUrl0);
-            //var b64content = request('req.body.MediaUrl0').pipe(fs.readFileSync(req.body.MediaUrl0, { encoding: 'base64' }));
-            // request({
-            //   url: req.body.MediaUrl0,
-            //   encoding: 'binary'
-            // }
-            // , function (e,r,b) {
-            //   var type    = r.headers["content-type"];
-            //   var prefix  = "data:" + type + ";base64,";
-            //   var base64  = new Buffer(b, 'binary').toString('base64');
-            //   var b64content = prefix + base64;
-            //
-            //   T.post('media/upload', { media_data: b64content }, function(err, data, response) {
-            //     // now we can assign alt text to the media, for use by screen readers and
-            //     // other text-based presentations and interpreters
-            //     var mediaIdStr = data.media_id_string;
-            //     var altText = "This image was submitted via Twilio."
-            //     var meta_params = { media_id: mediaIdStr, alt_text: { text: altText } }
-            //
-            //     T.post('media/metadata/create', meta_params, function(err, data, response) {
-            //       if (!err) {
-            //         // now we can reference the media and post a tweet (media will attach to the tweet)
-            //
-            //         var newData = data.join(" #");
-            //         newData = '#' + newData;
-            //
-            //         // if (newData.length > 140) {
-            //         //   for (var i = 139; i > 0; i--) {
-            //         //     if (newData[i] === "#") {
-            //         //       newData = newData.slice(0, i)
-            //         //       break;
-            //         //     }
-            //         //   }
-            //         // }
-            //
-            //         var newData = 'hello';
-            //         var params = {
-            //           status: newData,
-            //           media_ids: [mediaIdStr]
-            //         }
-            //
-            //         T.post('statuses/update', params, function(err, data, response) {
-            //           console.log(data)
-            //         })
-            //       }
-            //     })
-            //   })
-            // })
+            var b64content = request('req.body.MediaUrl0').pipe(fs.readFileSync(req.body.MediaUrl0, { encoding: 'base64' }));
+            request({
+              url: req.body.MediaUrl0,
+              encoding: 'binary'
+            }
+            , function (e,r,b) {
+              var type    = r.headers["content-type"];
+              var prefix  = "data:" + type + ";base64,";
+              var base64  = new Buffer(b, 'binary').toString('base64');
+              var b64content = prefix + base64;
 
+              T.post('media/upload', { media_data: b64content }, function(err, data, response) {
+                // now we can assign alt text to the media, for use by screen readers and
+                // other text-based presentations and interpreters
+                var mediaIdStr = data.media_id_string;
+                var altText = "This image was submitted via Twilio."
+                var meta_params = { media_id: mediaIdStr, alt_text: { text: altText } }
 
+                T.post('media/metadata/create', meta_params, function(err, data, response) {
+                  if (!err) {
+                    // now we can reference the media and post a tweet (media will attach to the tweet)
+
+                    var newData = data.join(" #");
+                    newData = '#' + newData;
+
+                    if (newData.length > 140) {
+                      for (var i = 139; i > 0; i--) {
+                        if (newData[i] === "#") {
+                          newData = newData.slice(0, i)
+                          break;
+                        }
+                      }
+                    }
+                    var params = {
+                      status: newData,
+                      media_ids: [mediaIdStr]
+                    }
+
+                    T.post('statuses/update', params, function(err, data, response) {
+                      console.log(data)
+                    })
+                  }
+                })
+              })
+            })
           }
         });
       }

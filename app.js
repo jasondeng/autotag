@@ -123,10 +123,8 @@ var twilio = require('twilio');
 var client = new twilio.RestClient(TWILIO_ACCOUNT_SID, TWILIO_AUTH_TOKEN);
 
 app.post('/post/incoming', function(req, res) {
-    console.log('asdsad');
     var resp = new twilio.TwimlResponse();
     resp.message('We have recieved your image!');
-
 
     request('https://api.clarifai.com/v1/tag?url=' + req.body.MediaUrl0 + '&access_token=' + config.CLARIFAI_TOKEN, function(error, response, body) {
       if (!error && response.statusCode == 200) {
@@ -145,7 +143,7 @@ app.post('/post/incoming', function(req, res) {
               access_token: user.access_token,
               access_token_secret: user.access_token_secret,
             });
-
+            console.log(req.body.MediaUrl0);
             //var b64content = request('req.body.MediaUrl0').pipe(fs.readFileSync(req.body.MediaUrl0, { encoding: 'base64' }));
             request({
               url: req.body.MediaUrl0,
@@ -171,14 +169,16 @@ app.post('/post/incoming', function(req, res) {
                     var newData = data.join(" #");
                     newData = '#' + newData;
 
-                    if (newData.length > 140) {
-                      for (var i = 139; i > 0; i--) {
-                        if (newData[i] === "#") {
-                          newData = newData.slice(0, i)
-                          break;
-                        }
-                      }
-                    }
+                    // if (newData.length > 140) {
+                    //   for (var i = 139; i > 0; i--) {
+                    //     if (newData[i] === "#") {
+                    //       newData = newData.slice(0, i)
+                    //       break;
+                    //     }
+                    //   }
+                    // }
+
+                    var newData = 'hello';
                     var params = {
                       status: newData,
                       media_ids: [mediaIdStr]

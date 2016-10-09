@@ -201,7 +201,7 @@ app.post('/post/incoming', function(req, res) {
 
 
 
-  app.get('/test', function(req, res) {
+  app.post('/test', function(req, res) {
     var resp = new twilio.TwimlResponse();
     resp.message('We have recieved your image!')
 

@@ -170,7 +170,7 @@ app.post('/post/incoming', function(req, res) {
                     // now we can reference the media and post a tweet (media will attach to the tweet)
                     console.log(tags);
                     for (var i = 0;i < tags.length; i++) {
-                      tags[i] = tags[i].replace(/\s+/, "");
+                      tags[i] = tags[i].replace(/\s+/, "_");
                     }
                     var newData = tags.join(" #");
                     newData = '#' + newData;

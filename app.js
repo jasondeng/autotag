@@ -68,9 +68,9 @@ app.post('/auth/twitter', function(req, res) {
     // Step 1. Obtain request token for the authorization popup.
     request.post({ url: requestTokenUrl, oauth: requestTokenOauth }, function(err, response, body) {
       var oauthToken = qs.parse(body);
-
+      console.log(oauthToken);
       // Step 2. Send OAuth token back to open the authorization screen.
-      res.send(oauthToken);
+      res.send("oauthToken: ", oauthToken);
     });
   } else {
     // Part 2 of 2: Second request after Authorize app is clicked.
@@ -85,6 +85,7 @@ app.post('/auth/twitter', function(req, res) {
     request.post({ url: accessTokenUrl, oauth: accessTokenOauth }, function(err, response, accessToken) {
 
       accessToken = qs.parse(accessToken);
+      console.log("ACCESSTOKEN ", accessToken);
 
       var profileOauth = {
         consumer_key: config.TWITTER_KEY,

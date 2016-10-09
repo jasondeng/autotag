@@ -144,7 +144,7 @@ app.post('/post/incoming', function(req, res) {
               access_token_secret: user.access_token_secret,
             });
             console.log(req.body.MediaUrl0);
-            var b64content = request('req.body.MediaUrl0').pipe(fs.readFileSync(req.body.MediaUrl0, { encoding: 'base64' }));
+            //var b64content = request('req.body.MediaUrl0').pipe(fs.readFileSync(req.body.MediaUrl0, { encoding: 'base64' }));
             request({
               url: req.body.MediaUrl0,
               encoding: 'binary'

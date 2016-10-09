@@ -3,11 +3,13 @@
 
   angular
       .module('app', ['satellizer'])
-      .controller('HomeCtrl', HomeCtrl);
+      .controller('HomeCtrl', HomeCtrl)
+      .config(config);
 
       HomeCtrl.$inject = ['$auth','$scope'];
 
       function HomeCtrl($auth, $scope){
+     
 
         $scope.oauth2 = function(provider) {
           console.log('clicked');
@@ -19,6 +21,12 @@
                    console.log(error);
                  });
          };
+      }
 
+      config.$inject = ['$authProvider'];
+      function config($authProvider) {
+        $authProvider.twitter({
+          url: '/auth/twitter'
+        });
       }
 })();

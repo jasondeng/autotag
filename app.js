@@ -158,6 +158,10 @@ app.post('/post/incoming', function(req, res) {
               T.post('media/upload', { media_data: b64content }, function(err, data, response) {
                 // now we can assign alt text to the media, for use by screen readers and
                 // other text-based presentations and interpreters
+                if(err) {
+                  console.log(err);
+                  return res.send(err);
+                }
                 var mediaIdStr = data.media_id_string;
                 var altText = "This image was submitted via Twilio."
                 var meta_params = { media_id: mediaIdStr, alt_text: { text: altText } }
@@ -178,7 +182,7 @@ app.post('/post/incoming', function(req, res) {
                       }
                     }
                     var params = {
-                      status: newData,
+                      status: 'newData',
                       media_ids: [mediaIdStr]
                     }
 

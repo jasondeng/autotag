@@ -15,6 +15,10 @@ input {
   border-bottom: 1px solid white!important;
 }
 
+.sizeR{
+  font-size: 26px;
+}
+
 #container{
   margin-top: 150px;
 }
@@ -28,11 +32,6 @@ input {
 }
 
 
-#bottomCSS{
-  margin-top: 150px;
-  font-size: 25px;
-}
-
 p a {
   color: black;
 }
@@ -44,4 +43,8 @@ p a {
   left: 0;
   padding: 1rem;
   text-align: center;
+}
+
+#bottomCSS{
+  font-size: 18px;
 }

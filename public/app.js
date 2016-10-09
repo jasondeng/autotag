@@ -10,10 +10,11 @@
 
       function HomeCtrl($auth, $scope, $http, $location){
 
-        $scope.phone_submitted = false;
-        $scope.phonenumber = "";
+        $scope.twitter_submitted = false;
         $scope.linked = false;
         $scope.bothSubmitted = false;
+        $scope.phonenumber = "";
+
         $scope.submitNumber = function() {
 
           var data = {
@@ -23,8 +24,9 @@
           $http.post('/post/phonenum', data)
             .then(function () {
               console.log('submitted');
-              $scope.phone_submitted = !$scope.phone_submitted;
               $scope.linked = !$scope.linked;
+              $scope.bothSubmitted = !$scope.bothSubmitted;
+              console.log($scope.linked);
               $location.path('/');
             })
         }
@@ -32,11 +34,8 @@
         $scope.oauth2 = function(provider) {
           $auth.authenticate(provider)
                  .then(function() {
-                   console.log($scope.phonenumber);
-                     console.log('authenitated');
+                     $scope.twitter_submitted = !$scope.twitter_submitted;
                      $scope.linked = !$scope.linked;
-                     $scope.bothSubmitted = !$scope.bothSubmitted;
-                     console.log($scope.linked);
                      $location.path('/');
                  })
                  .catch(function(error) {

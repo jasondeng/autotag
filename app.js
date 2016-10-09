@@ -47,18 +47,11 @@ app.post('/post/phonenum', function(req, res) {
   var data = req.body;
   var phone_number = data.phone_number;
   console.log(data);
-  var user = new User({
-    phone_number: phone_number,
-  });
 
-  user.save(function(err) {
-    if(err) (console.log(err));
-  })
-
-  res.send({success: true});
 });
 
 app.post('/auth/twitter', function(req, res) {
+  console.log("AUTH", req.query.num);
   var requestTokenUrl = 'https://api.twitter.com/oauth/request_token';
   var accessTokenUrl = 'https://api.twitter.com/oauth/access_token';
   var profileUrl = 'https://api.twitter.com/1.1/account/verify_credentials.json';
@@ -75,7 +68,7 @@ app.post('/auth/twitter', function(req, res) {
     request.post({ url: requestTokenUrl, oauth: requestTokenOauth }, function(err, response, body) {
       var oauthToken = qs.parse(body);
       // Step 2. Send OAuth token back to open the authorization screen.
-      res.send(oauthToken);
+      return res.send(oauthToken);
     });
   } else {
     // Part 2 of 2: Second request after Authorize app is clicked.
@@ -96,88 +89,32 @@ app.post('/auth/twitter', function(req, res) {
       consumer_secret: config.TWITTER_SECRET,
       access_token: accessToken.oauth_token,
       access_token_secret: accessToken.oauth_token_secret,
-
-      var user = new User()
 */
+      var user = new User({
+        twitter: accessToken.screen_name,
+        access_token: accessToken.oauth_token,
+        access_token_secret: accessToken.oauth_token_secret,
+      })
 
+      user.save(function(err) {
+        if(err) {
+          console.log(err);
+          return res.status(400).send(err);
+        }
+        return res.send({success: true});
+      });
     });
-    res.send({success: true});
   }
 });
-/*
-      // Step 4. Retrieve user's profile information and email address.
-      request.get({
-        url: profileUrl,
-        qs: { include_email: true },
-        oauth: profileOauth,
-        json: true
-      }, function(err, response, profile) {
-
-        // Step 5a. Link user accounts.
-        if (req.header('Authorization')) {
-          User.findOne({ twitter: profile.id }, function(err, existingUser) {
-            if (existingUser) {
-              return res.status(409).send({ message: 'There is already a Twitter account that belongs to you' });
-            }
-
-            var token = req.header('Authorization').split(' ')[1];
-            var payload = jwt.decode(token, config.TOKEN_SECRET);
-
-            User.findById(payload.sub, function(err, user) {
-              if (!user) {
-                return res.status(400).send({ message: 'User not found' });
-              }
-
-              user.twitter = profile.id;
-              user.save(function(err) {
-                res.send({ token: createJWT(user) });
-              });
-            });
-          });
-        } else {
-          // Step 5b. Create a new user account or return an existing one.
-          User.findOne({ twitter: profile.id }, function(err, existingUser) {
-            if (existingUser) {
-              return res.send({ token: createJWT(existingUser) });
-            }
-
-            var user = new User();
-            user.twitter = profile.id;
-            user.email = profile.email;
-            user.displayName = profile.name;
-            user.picture = profile.profile_image_url_https.replace('_normal', '');
-            user.save(function() {
-              res.send({ token: createJWT(user) });
-            });
-          });
-        }
-      });*/
 
 var TWILIO_ACCOUNT_SID = config.TWILIO_SID;
 var TWILIO_AUTH_TOKEN = config.TWILIO_AUTH_TOKEN;
 var twilio = require('twilio');
 var client = new twilio.RestClient(TWILIO_ACCOUNT_SID, TWILIO_AUTH_TOKEN);
 
-/*
-client.sendSms({
-    to:'9176075342',
-    from:'9172424218',
-    body:'ahoy hoy! Testing Twilio and node.js'
-}, function(error, message) {
-    if (!error) {
-        console.log('Success! The SID for this SMS message is:');
-        console.log(message.sid);
-        console.log('Message sent on:');
-        console.log(message.dateCreated);
-    } else {
-        console.log('Oops! There was an error.');
-    }
-});
-*/
-
 app.post('/post/incoming', function(req,res) {
 
-  /*
+
   var resp = new twilio.TwimlResponse();
    resp.message('ahoy hoy! Testing Twilio and node.js');
 
@@ -186,7 +123,7 @@ app.post('/post/incoming', function(req,res) {
        'Content-Type':'text/xml'
    });
    res.end(resp.toString());
-*/
+
 
    request('https://api.clarifai.com/v1/tag?url=' + req.body.MediaUrl0 + '&access_token=' + config.CLARIFAI_TOKEN, function(error, response, body) {
      if (!error && response.statusCode == 200) {

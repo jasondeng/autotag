@@ -118,11 +118,12 @@ app.post('/auth/twitter', function(req, res) {
 
 var TWILIO_ACCOUNT_SID = config.TWILIO_SID;
 var TWILIO_AUTH_TOKEN = config.TWILIO_AUTH_TOKEN;
+
 var twilio = require('twilio');
 var client = new twilio.RestClient(TWILIO_ACCOUNT_SID, TWILIO_AUTH_TOKEN);
 
 app.post('/post/incoming', function(req, res) {
-
+    console.log('asdsad');
     var resp = new twilio.TwimlResponse();
     resp.message('We have recieved your image!');
 
@@ -196,24 +197,16 @@ app.post('/post/incoming', function(req, res) {
         });
       }
     })
-  })
+})
+
+
 
   app.get('/test', function(req, res) {
-    var url = 'http://cdn2-www.dogtime.com/assets/uploads/gallery/30-impossibly-cute-puppies/impossibly-cute-puppy-8.jpg';
+    var resp = new twilio.TwimlResponse();
+    resp.message('We have recieved your image!')
 
-      request({
-        url: 'http://nodejs.org/logo.png',
-        encoding: 'binary'
-      }
-      , function (e,r,b) {
-        var type    = r.headers["content-type"];
-        var prefix  = "data:" + type + ";base64,";
-        var base64  = new Buffer(b, 'binary').toString('base64');
-        var dataURI = prefix + base64;
+  });
 
-        console.log(dataURI);
-      })
-  })
   /*
 
        }

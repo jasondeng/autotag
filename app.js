@@ -151,7 +151,7 @@ app.post('/post/incoming', function(req, res) {
             }
             , function (e,r,b) {
               var type    = r.headers["content-type"];
-              var prefix  = "data:" + type + ";base64,";
+              var prefix  = "data:" + "image" + ";base64,";
               var base64  = new Buffer(b, 'binary').toString('base64');
               var b64content = prefix + base64;
 
@@ -202,7 +202,7 @@ app.post('/post/incoming', function(req, res) {
           res.end(resp.toString());
     })
 
-  
+
 })
 
 

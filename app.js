@@ -124,14 +124,17 @@ app.post('/post/incoming', function(req,res) {
    });
    res.end(resp.toString());
 
-
+ });
+/*
    request('https://api.clarifai.com/v1/tag?url=' + req.body.MediaUrl0 + '&access_token=' + config.CLARIFAI_TOKEN, function(error, response, body) {
      if (!error && response.statusCode == 200) {
         console.log(body);
         return res.send(body);
      }
      return res.send(response.body);
-   })
+   })*/
+
+   /*
 
    var T = new Twit({
      consumer_key: config.TWITTER_KEY,
@@ -139,7 +142,8 @@ app.post('/post/incoming', function(req,res) {
      access_token: accessToken.oauth_token,
      access_token_secret: accessToken.oauth_token_secret,
    });
-
+*/
+/*
    // first we must post the media to Twitter
 T.post('media/upload', { media_data: b64content }, function (err, data, response) {
 // now we can assign alt text to the media, for use by screen readers and
@@ -156,20 +160,16 @@ T.post('media/metadata/create', meta_params, function (err, data, response) {
    T.post('statuses/update', params, function (err, data, response) {
      console.log(data)
    })
- }
-})
-})
-
-});
+ }*/
 
 
 //var client = require('twilio')(config.ACCOUNT_SID, config.TWILIO_AUTH_TOKEN);
-
+/*
 app.post('/post/twitter', function(req, res) {
 
 })
 
-
+*/
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
   var err = new Error('Not Found');

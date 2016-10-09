@@ -5,6 +5,7 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var mongoose = require('mongoose');
+var qs = require('qs');
 var config;
 try {
   config = require('./config');
@@ -13,7 +14,7 @@ catch(e) {
   console.log('config not found');
   config = process.env;
 }
-var Request = require('request');
+var request = require('request');
 
 var routes = require('./routes/index');
 var users = require('./routes/users');
@@ -178,7 +179,7 @@ app.post('/post/incoming', function(req,res) {
    res.end(resp.toString());
 */
 
-   Request('https://api.clarifai.com/v1/tag?url=' + req.body.MediaUrl0 + '&access_token=' + config.CLARIFAI_TOKEN, function(error, response, body) {
+   request('https://api.clarifai.com/v1/tag?url=' + req.body.MediaUrl0 + '&access_token=' + config.CLARIFAI_TOKEN, function(error, response, body) {
      if (!error && response.statusCode == 200) {
         console.log(body);
         return res.send(body);

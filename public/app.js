@@ -5,17 +5,18 @@
       .module('app', ['satellizer'])
       .controller('HomeCtrl', HomeCtrl);
 
-      HomeCtrl.$inject = ['$auth'];
+      HomeCtrl.$inject = ['$auth','$scope'];
 
-      function HomeCtrl($auth){
+      function HomeCtrl($auth, $scope){
 
-        var oauth2 = function(provider) {
+        $scope.oauth2 = function(provider) {
+          console.log('clicked');
           $auth.authenticate(provider)
                  .then(function() {
                      console.log('authenitated');
                  })
                  .catch(function(error) {
-                   consol.log(error);
+                   console.log(error);
                  });
          };
 

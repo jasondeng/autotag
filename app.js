@@ -117,7 +117,7 @@ app.post('/post/incoming', function(req,res) {
 
   var resp = new twilio.TwimlResponse();
    resp.message('ahoy hoy! Testing Twilio and node.js');
-
+   console.log(resp.body);
    //Render the TwiML document using "toString"
    res.writeHead(200, {
        'Content-Type':'text/xml'

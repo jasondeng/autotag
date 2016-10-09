@@ -45,13 +45,18 @@ var User = require("./models/user");
 
 app.post('/post/phonenum', function(req, res) {
   var data = req.body;
-  var phone_number = data.phone_number;
+  User.findOneAndUpdate({access_token: data.token}, {phone_number: data.phone_number}, {new: true}, function(err, doc) {
+    if (err)
+      return res.send(err);
+    if (!doc)
+      return res.status(404).send({message: "Not found"});
+    return res.send(doc);
+  })
   console.log(data);
 
 });
 
 app.post('/auth/twitter', function(req, res) {
-  console.log("AUTH", req.query.num);
   var requestTokenUrl = 'https://api.twitter.com/oauth/request_token';
   var accessTokenUrl = 'https://api.twitter.com/oauth/access_token';
   var profileUrl = 'https://api.twitter.com/1.1/account/verify_credentials.json';
@@ -101,7 +106,8 @@ app.post('/auth/twitter', function(req, res) {
           console.log(err);
           return res.status(400).send(err);
         }
-        return res.send({success: true});
+        console.log('asdas');
+        return res.send({token: user.access_token});
       });
     });
   }
@@ -124,8 +130,12 @@ app.post('/post/incoming', function(req,res) {
      if (!error && response.statusCode == 200) {
        var data = JSON.parse(body).results[0].result.tag.classes;
 
-      console.log(data);
-        //return res.send(body);
+       var T = new Twit({
+         consumer_key: config.TWITTER_KEY,
+         consumer_secret: config.TWITTER_SECRET,
+         access_token: accessToken.oauth_token,
+         access_token_secret: accessToken.oauth_token_secret,
+       });
      }
      //return res.send(response.body);
    })

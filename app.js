@@ -123,11 +123,9 @@ app.post('/post/incoming', function(req,res) {
    request('https://api.clarifai.com/v1/tag?url=' + req.body.MediaUrl0 + '&access_token=' + config.CLARIFAI_TOKEN, function(error, response, body) {
      if (!error && response.statusCode == 200) {
        var data = body;
-        console.log(data["results"]);
-        console.log(data.results);
+        console.log('a',data["results"]);
+        console.log('b',data.results);
 
-        var data2= response;
-        console.log(data2);
 
         //return res.send(body);
      }

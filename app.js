@@ -95,19 +95,27 @@ app.post('/auth/twitter', function(req, res) {
       access_token: accessToken.oauth_token,
       access_token_secret: accessToken.oauth_token_secret,
 */
-      var user = new User({
-        twitter: accessToken.screen_name,
-        access_token: accessToken.oauth_token,
-        access_token_secret: accessToken.oauth_token_secret,
-      })
-
-      user.save(function(err) {
-        if(err) {
-          console.log(err);
-          return res.status(400).send(err);
+      User.findOne({twitter: accessToken.screen_name}, function(err, account) {
+        if (err)
+          res.send(err);
+        if (account) {
+          console.log(account)
+          return res.send({token: account.access_token})
         }
-        console.log('asdas');
-        return res.send({token: user.access_token});
+        var user = new User({
+          twitter: accessToken.screen_name,
+          access_token: accessToken.oauth_token,
+          access_token_secret: accessToken.oauth_token_secret,
+        });
+
+        user.save(function(err) {
+          if(err) {
+            console.log(err);
+            return res.status(400).send(err);
+          }
+          console.log('asdas');
+          return res.send({token: user.access_token});
+        });
       });
     });
   }

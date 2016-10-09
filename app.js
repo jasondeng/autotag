@@ -147,7 +147,7 @@ app.post('/post/incoming', function(req, res) {
 
             //var b64content = request('req.body.MediaUrl0').pipe(fs.readFileSync(req.body.MediaUrl0, { encoding: 'base64' }));
             request({
-              url: 'req.body.MediaUrl0',
+              url: req.body.MediaUrl0,
               encoding: 'binary'
             }
             , function (e,r,b) {

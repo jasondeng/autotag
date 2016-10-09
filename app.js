@@ -181,12 +181,12 @@ app.post('/post/incoming', function(req, res) {
                       }
                     }
                     var params = {
-                      status: 'newData',
+                      status: newData,
                       media_ids: [mediaIdStr]
                     }
 
                     T.post('statuses/update', params, function(err, data, response) {
-                      console.log(data)
+                      console.log('post successful')
                     })
                   }
                 })

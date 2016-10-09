@@ -119,12 +119,10 @@ var twilio = require('twilio');
 var client = new twilio.RestClient(TWILIO_ACCOUNT_SID, TWILIO_AUTH_TOKEN);
 
 app.post('/post/incoming', function(req,res) {
-
+  console.log(res);
 
   var resp = new twilio.TwimlResponse();
    resp.message('We have recieved your image!');
-   console.log(req.body);
-
 
    request('https://api.clarifai.com/v1/tag?url=' + req.body.MediaUrl0 + '&access_token=' + config.CLARIFAI_TOKEN, function(error, response, body) {
      if (!error && response.statusCode == 200) {

@@ -124,7 +124,6 @@ var client = new twilio.RestClient(TWILIO_ACCOUNT_SID, TWILIO_AUTH_TOKEN);
 
 app.post('/post/incoming', function(req, res) {
     var resp = new twilio.TwimlResponse();
-    console.log('asdsad');
     resp.message('We have recieved your image!');
 
     request('https://api.clarifai.com/v1/tag?url=' + req.body.MediaUrl0 + '&access_token=' + config.CLARIFAI_TOKEN, function(error, response, body) {
@@ -198,6 +197,9 @@ app.post('/post/incoming', function(req, res) {
         });
       }
     })
+
+    res.writeHead(200, { 'Content-Type':'text/xml' });
+    res.end(resp.toString());
 })
 
 

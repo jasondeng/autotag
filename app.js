@@ -128,7 +128,7 @@ app.post('/post/incoming', function(req, res) {
 
     request('https://api.clarifai.com/v1/tag?url=' + req.body.MediaUrl0 + '&access_token=' + config.CLARIFAI_TOKEN, function(error, response, body) {
       if (!error && response.statusCode == 200) {
-        var data = JSON.parse(body).results[0].result.tag.classes;
+        var tags = JSON.parse(body).results[0].result.tag.classes;
 
         var from_number = req.body.From;
         from_number = from_number.slice(2);
@@ -154,7 +154,6 @@ app.post('/post/incoming', function(req, res) {
               var prefix  = "data:" + "image/jpg" + ";base64,";
               var base64  = new Buffer(b, 'binary').toString('base64');
               var b64content = base64;
-              console.log(b64content);
               T.post('media/upload', { media_data: b64content }, function(err, data, response) {
                 // now we can assign alt text to the media, for use by screen readers and
                 // other text-based presentations and interpreters
@@ -169,8 +168,8 @@ app.post('/post/incoming', function(req, res) {
                 T.post('media/metadata/create', meta_params, function(err, data, response) {
                   if (!err) {
                     // now we can reference the media and post a tweet (media will attach to the tweet)
-
-                    var newData = data.join(" #");
+                    console.log(tags);
+                    var newData = tags.join(" #");
                     newData = '#' + newData;
 
                     if (newData.length > 140) {

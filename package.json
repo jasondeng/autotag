@@ -14,7 +14,7 @@
     "ejs": "~2.4.1",
     "express": "~4.13.4",
     "mongoose": "^4.6.3",
-    "morgan": "~1.7.0",
+    "morgan": "~1.9.1",
     "qs": "^6.2.1",
     "request": "^2.75.0",
     "serve-favicon": "~2.3.0",

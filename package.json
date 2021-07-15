@@ -18,7 +18,7 @@
     "qs": "^6.2.1",
     "request": "^2.75.0",
     "serve-favicon": "~2.3.0",
-    "twilio": "^2.11.0",
+    "twilio": "^3.66.0",
     "twit": "^2.2.5"
   },
   "devDependencies": {
